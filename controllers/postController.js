@@ -1,6 +1,6 @@
-import { Post } from "../models/postModel";
+const Post = require("../models/postModel");
 
-export async function getAllPosts(req, res, next) {
+async function getAllPosts(req, res, next) {
   try {
     const posts = await Post.find();
     res.status(200).json({
@@ -16,7 +16,7 @@ export async function getAllPosts(req, res, next) {
   }
 }
 
-export async function getOnePost(req, res, next) {
+async function getOnePost(req, res, next) {
   try {
     const post = await Post.findById(req.params.id);
     res.status(200).json({
@@ -31,20 +31,19 @@ export async function getOnePost(req, res, next) {
   }
 }
 
-export async function createPost(req, res, next) {
+async function createPost(req, res, next) {
   try {
     const post = await Post.create(req.body);
-    res,
-      status(200).json({
-        status: "sucess",
-        data: { post },
-      });
+    res.status(200).json({
+      status: "success",
+      data: { post },
+    });
   } catch (error) {
     console.log(error);
   }
 }
 
-export async function updatePost(req, res, next) {
+async function updatePost(req, res, next) {
   try {
     const post = await Post.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
@@ -61,11 +60,20 @@ export async function updatePost(req, res, next) {
   }
 }
 
-export async function deletePost(req, res, next) {
+async function deletePost(req, res, next) {
   try {
     await Post.findByIdAndDelete(req.params.id);
-    res.status(200);
+    // res.status(200).json({
+    //   status: "success",
+    // });
+    res.send("success");
   } catch (error) {
     console.log(error);
   }
 }
+
+exports.getAllPosts = getAllPosts;
+exports.getOnePost = getOnePost;
+exports.createPost = createPost;
+exports.updatePost = updatePost;
+exports.deletePost = deletePost;
